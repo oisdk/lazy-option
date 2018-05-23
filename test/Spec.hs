@@ -42,11 +42,13 @@ instance EqProp B where
 instance EqProp C where
     (=-=) = (===)
 
-sameAsFirst :: Small Int -> [Bool] -> Property
-sameAsFirst (Small n) xs = cover bottMonoid 50 "_|_" (bottMonoid === bottSemigr)
+sameAsFirst :: Int -> [Bool] -> Property
+sameAsFirst n' xs' = cover bottMonoid 10 "_|_" (bottMonoid === bottSemigr)
   where
-    bottMonoid = isBottom (monoidFold (botList (take n xs)))
-    bottSemigr = isBottom (semigrFold (botList (take n xs)))
+    n = abs n' `mod` 3
+    xs = take n xs'
+    bottMonoid = isBottom (monoidFold (botList xs))
+    bottSemigr = isBottom (semigrFold (botList xs))
     monoidFold = Data.Monoid.getFirst . foldMap (Data.Monoid.First . Just)
     semigrFold =
         fmap Data.Semigroup.getFirst .

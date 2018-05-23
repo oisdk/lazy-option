@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE Safe               #-}
+{-# LANGUAGE CPP                #-}
 
 module Data.Semigroup.Option.Lazy
   (Option(..)
@@ -13,10 +14,16 @@ import           Prelude             (Eq, Ord, Read, Show,
 import           Data.Maybe          (Maybe (..), maybe)
 import           Data.Ord            (Ordering (..), compare)
 
-import           Data.Semigroup      hiding (Option (..), option)
+import           Data.Monoid         (Monoid (mappend, mempty))
+import           Data.Semigroup      (Semigroup (stimes, (<>)))
+
 
 import           Control.Applicative (Alternative (empty, (<|>)),
-                                      Applicative (liftA2, pure, (*>), (<*>)))
+                                      Applicative (pure, (*>),(<*>)
+#if MIN_VERSION_base(4,10,0)
+                                                  ,liftA2
+#endif
+                                                  ))
 import           Control.Monad       (Monad ((>>), (>>=)), MonadPlus)
 import           Control.Monad.Fix   (MonadFix (mfix))
 import           Data.Foldable       (Foldable (foldMap))
@@ -40,8 +47,10 @@ instance Applicative Option where
     Option (Just f) <*> xs = fmap f xs
     Option Nothing  <*> _  = Option Nothing
 
+#if MIN_VERSION_base(4,10,0)
     liftA2 f (Option (Just x)) (Option (Just y)) = Option (Just (f x y))
     liftA2 _ _ _                                 = Option Nothing
+#endif
 
     Option (Just _) *> x = x
     Option Nothing  *> _ = Option Nothing
