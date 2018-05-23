@@ -1,7 +1,7 @@
+{-# LANGUAGE CPP                #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE Safe               #-}
-{-# LANGUAGE CPP                #-}
 
 module Data.Semigroup.Option.Lazy
   (Option(..)
@@ -11,8 +11,8 @@ module Data.Semigroup.Option.Lazy
 import           Prelude             (Eq, Ord, Read, Show,
                                       errorWithoutStackTrace, (.))
 
-import           Data.Maybe          (Maybe (..), maybe)
-import           Data.Ord            (Ordering (..), compare)
+import           Data.Maybe          (Maybe (Just, Nothing), maybe)
+import           Data.Ord            (Ordering (LT, EQ, GT), compare)
 
 import           Data.Monoid         (Monoid (mappend, mempty))
 import           Data.Semigroup      (Semigroup (stimes, (<>)))
