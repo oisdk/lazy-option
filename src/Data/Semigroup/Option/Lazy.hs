@@ -3,6 +3,18 @@
 {-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE Safe               #-}
 
+-- |
+-- Module      : Data.Semigroup.Option.Lazy
+-- Description : A lazier implementation of Data.Semigroup.Option
+-- Copyright   : (c) Donnacha Oisín Kidney, 2018
+-- License     : MIT
+-- Maintainer  : mail@doisinkidney.com
+-- Stability   : stable
+-- Portability : GHC-8.
+--
+-- This module provides a lazier implementation of
+-- 'Data.Semigroup.Option', which allows it to behave the same as
+-- 'Data.Monoid.First'.
 module Data.Semigroup.Option.Lazy
   (Option(..)
   ,option)
@@ -33,6 +45,15 @@ import           Data.Traversable    (Traversable (traverse))
 import           Data.Data           (Data)
 import           GHC.Generics        (Generic, Generic1)
 
+-- | Similar to the 'Data.Semigroup.Option' in "Data.Semigroup",
+-- but with a lazier impementation of '<>'.
+--
+-- >>> foldMap (Data.Semigroup.Option.Lazy.Option . Just . First) (1:2:undefined)
+-- Option {getOption = Just (First {getFirst = 1})}
+--
+-- >>> foldMap (Data.Semigroup.Option . Just . First) (1:2:undefined)
+-- Option {getOption = *** Exception: Prelude.undefined
+-- ...
 newtype Option a = Option
     { getOption :: Maybe a
     } deriving (Eq,Ord,Show,Read,Data,Generic,Generic1)
@@ -99,3 +120,7 @@ instance Semigroup a =>
          Monoid (Option a) where
     mempty = Option Nothing
     mappend = (<>)
+
+-- $setup
+-- >>> import Data.Semigroup (First(..))
+-- >>> import Prelude
