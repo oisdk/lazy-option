@@ -1,0 +1,71 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 39d6b451f24c05bc3fc4e71dab82f48b2edb45afefaa12a02f2063f34add9d13
+
+name:           lazy-option
+version:        0.1.0.0
+description:    Please see the README on Github at <https://github.com/oisdk/lazy-option#readme>
+homepage:       https://github.com/oisdk/lazy-option#readme
+bug-reports:    https://github.com/oisdk/lazy-option/issues
+author:         Donnacha Oisín Kidney
+maintainer:     mail@doisinkidney.com
+copyright:      2018 Donnacha Oisín Kidney
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+extra-source-files:
+    ChangeLog.md
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/oisdk/lazy-option
+
+library
+  exposed-modules:
+      Data.Semigroup.Option.Lazy
+  other-modules:
+      Paths_lazy_option
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-redundant-constraints -Wcompat
+  build-depends:
+      base >=4.9 && <5
+  default-language: Haskell2010
+
+test-suite lazy-option-doctests
+  type: exitcode-stdio-1.0
+  main-is: doctests.hs
+  other-modules:
+      Paths_lazy_option
+  hs-source-dirs:
+      doctest
+  ghc-options: -Wall -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-redundant-constraints -Wcompat -threaded
+  build-depends:
+      QuickCheck
+    , base >=4.9 && <5
+    , doctest
+    , lazy-option
+  default-language: Haskell2010
+
+test-suite lazy-option-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_lazy_option
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-redundant-constraints -Wcompat -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      ChasingBottoms >=1.2.2
+    , HUnit >=1.1
+    , QuickCheck >=1.0
+    , base >=4.9 && <5
+    , checkers >=0.1
+    , lazy-option
+    , test-framework >=0.1
+    , test-framework-quickcheck2 >=0.2.1
+  default-language: Haskell2010
